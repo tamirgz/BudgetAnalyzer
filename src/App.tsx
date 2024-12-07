@@ -8,6 +8,7 @@ import { parseExcelFile } from './utils/expenseParser';
 import { analyzeExpenses } from './utils/expenseAnalytics';
 import { Expense } from './types/expense';
 import { BarChart3, Upload } from 'lucide-react';
+import { formatCurrency } from './utils/currencyUtils';
 
 function App() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -91,6 +92,11 @@ function App() {
                 
                 <h2 className="text-xl font-semibold mb-4">
                   {selectedCategory ? `${selectedCategory} Expenses` : 'All Expenses'}
+                  {selectedCategory && (
+                    <span className="ml-2 text-lg font-normal text-gray-600">
+                      (Total: {formatCurrency(filteredExpenses.reduce((sum, exp) => sum + Math.abs(exp.amount), 0))})
+                    </span>
+                  )}
                 </h2>
                 
                 <DndContext onDragEnd={handleDragEnd}>
